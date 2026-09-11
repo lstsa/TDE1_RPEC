@@ -2,7 +2,7 @@ public class Pixel {
     private final int pos_x;
     private final int pos_y;
 
-    public Pixel(int x, int y, int color) {
+    public Pixel(int x, int y) {
         this.pos_x = x;
         this.pos_y = y;
     }

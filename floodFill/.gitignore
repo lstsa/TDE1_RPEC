@@ -4,6 +4,7 @@ out/
 !**/src/test/**/out/
 .kotlin
 .idea
+.floodFill/resultadoFinal.png
 
 ### Eclipse ###
 .apt_generated
