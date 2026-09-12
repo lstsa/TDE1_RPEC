@@ -1,14 +1,13 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
 
 public class PainelImagem extends JPanel{
     private BufferedImage imagem;
     private Color corPreenchimento = Color.RED;
-    private boolean usandoPilha = true;
-    private int contadorFrames = 0;
+    private boolean usandoPilha = false;
 
     public PainelImagem(){
         setPreferredSize(new Dimension(800,600));
@@ -25,7 +24,11 @@ public class PainelImagem extends JPanel{
                         Pixel pixelClicado = new Pixel(x, y);
 
                         new Thread(() -> {
-                            FloodFill.pintar(imagem, pixelClicado, Color.RED, PainelImagem.this);
+                            if (usandoPilha) {
+                                FloodFill.pintarPilha(imagem, pixelClicado, corPreenchimento, PainelImagem.this);
+                            } else {
+                                FloodFill.pintarFila(imagem, pixelClicado, corPreenchimento, PainelImagem.this);
+                            }
                         }).start();
 
                     } else {
@@ -58,4 +61,13 @@ public class PainelImagem extends JPanel{
             g.drawImage(imagem, 0, 0, null);
         }
     }
+
+    public void setUsandoPilha(boolean usandoPilha){
+        this.usandoPilha = usandoPilha;
+    }
+
+    public void setCorPreenchimento(Color corPreenchimento){
+        this.corPreenchimento = corPreenchimento;
+    }
+
 }

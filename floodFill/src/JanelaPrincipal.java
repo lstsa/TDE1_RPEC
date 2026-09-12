@@ -1,14 +1,13 @@
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 public class JanelaPrincipal extends JFrame {
     private PainelImagem painelImagem;
     private JButton btnCarregar;
+    private JButton btnEscolherCor;
+    private JRadioButton rbPilha;
+    private JRadioButton rbFila;
 
     public JanelaPrincipal(){
         setTitle("TDE1 - RPEC: Flood Fill");
@@ -22,7 +21,16 @@ public class JanelaPrincipal extends JFrame {
 
         JPanel painelBotoes = new JPanel();
         btnCarregar = new JButton("Carregar Imagem");
+        btnEscolherCor = new JButton("Escolher Cor");
+        rbPilha = new JRadioButton("Pilha (DFS)", true); // Selecionado por padrão
+        rbFila = new JRadioButton("Fila (BFS)");
+        ButtonGroup grupoModo = new ButtonGroup();
+        grupoModo.add(rbPilha);
+        grupoModo.add(rbFila);
         painelBotoes.add(btnCarregar);
+        painelBotoes.add(btnEscolherCor);
+        painelBotoes.add(rbPilha);
+        painelBotoes.add(rbFila);
         add(painelBotoes, BorderLayout.NORTH);
 
         btnCarregar.addActionListener(e -> {
@@ -34,8 +42,27 @@ public class JanelaPrincipal extends JFrame {
             }
         });
 
+        btnEscolherCor.addActionListener(e -> {
+            Color novaCor = JColorChooser.showDialog(
+                    JanelaPrincipal.this,
+                    "Selecione a Cor de Preenchimento",
+                    Color.RED
+            );
+
+            if (novaCor != null) {
+                painelImagem.setCorPreenchimento(novaCor);
+            }
+        });
+
+        rbPilha.addActionListener(e -> painelImagem.setUsandoPilha(true));
+        rbFila.addActionListener(e -> painelImagem.setUsandoPilha(false));
+
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new JanelaPrincipal());
     }
 }
